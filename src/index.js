@@ -1,9 +1,9 @@
+import axios from 'axios';
+
 import './sass/main.scss';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '14763371-8ad954d112ffa98330dee37e7';
-
-console.dir(window.scrollBy);
 
 // key - твой уникальный ключ доступа к API.
 // q - термин для поиска. То, что будет вводить пользователь.
@@ -38,19 +38,18 @@ function onSubmit(e) {
   }
 
   fetchImages().then(images => {
-    // console.dir(images);
     renderMarkup(images);
     page += 1;
 
-    if (images.hits.length === 0) {
+    if (images.data.hits.length === 0) {
       alert('Sorry, there are no images matching your search query. Please try again.');
       loadMoreBut.setAttribute('hidden', 'true');
       return;
     }
 
-    alert(`Hooray! We found ${images.totalHits} images.`);
+    alert(`Hooray! We found ${images.data.totalHits} images.`);
 
-    if (page > Math.ceil(images.totalHits / perPage)) {
+    if (page > Math.ceil(images.data.totalHits / perPage)) {
       loadMoreBut.setAttribute('hidden', 'true');
       console.log(`We're sorry, but you've reached the end of search results.`);
     } else {
@@ -68,19 +67,15 @@ function onSubmit(e) {
   });
 }
 
-function fetchImages() {
-  return fetch(
+async function fetchImages() {
+  return await axios.get(
     `${BASE_URL}?key=${API_KEY}&q=${query}&${queryParams}&page=${page}&per_page=${perPage}`,
-  ).then(response => {
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
+  );
 }
 
 function renderMarkup(images) {
-  const markup = images.hits
+  console.log(images.data.hits);
+  const markup = images.data.hits
     .map(({ webformatURL, likes, views, comments, downloads }) => {
       return `
         <div class="photo-card">
@@ -115,7 +110,7 @@ function onLoadMoreClick() {
     renderMarkup(images);
     page += 1;
 
-    if (page > Math.ceil(images.totalHits / perPage)) {
+    if (page > Math.ceil(images.data.totalHits / perPage)) {
       loadMoreBut.setAttribute('hidden', 'true');
       console.log(`We're sorry, but you've reached the end of search results.`);
     }
