@@ -28,9 +28,9 @@ export default class ApiGetImages {
       q: `${this.apiQuery}`,
       page: `${this.page}`,
       per_page: `${this.perPage}`,
-      image_type: 'all',
+      image_type: 'photo',
       orientation: 'horizontal',
-      safesearch: false,
+      safesearch: true,
     });
     return options;
   }
