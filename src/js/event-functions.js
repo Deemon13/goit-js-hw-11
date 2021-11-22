@@ -6,6 +6,8 @@ import getRefs from './get-refs';
 const apiGetImages = new ApiGetImages();
 const refs = getRefs();
 
+//event on click search button
+
 function onSubmit(e) {
   e.preventDefault();
   apiGetImages.resetPage();
