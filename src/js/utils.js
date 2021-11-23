@@ -37,7 +37,9 @@ function renderMarkup({ hits }) {
     .join('');
   refs.galleryRef.insertAdjacentHTML('beforeend', markup);
 
-  let gallery = new SimpleLightbox('.gallery a');
+  let gallery = new SimpleLightbox('.gallery a', {
+    close: false,
+  });
   gallery.refresh();
 }
 
