@@ -2,6 +2,7 @@ import SimpleLightbox from 'simplelightbox';
 import getRefs from './get-refs';
 
 const refs = getRefs();
+let gallery = null;
 
 // function for create gallery images markup
 
@@ -36,11 +37,6 @@ function renderMarkup({ hits }) {
     })
     .join('');
   refs.galleryRef.insertAdjacentHTML('beforeend', markup);
-
-  let gallery = new SimpleLightbox('.gallery a', {
-    close: false,
-  });
-  gallery.refresh();
 }
 
 // function for smmoth scrolling
@@ -54,6 +50,16 @@ function smoothScroll() {
   });
 }
 
+function createLightBox() {
+  if (!gallery) {
+    gallery = new SimpleLightbox('.gallery a', {
+      close: false,
+    });
+  }
+
+  gallery.refresh();
+}
+
 //default export
 
-export default { renderMarkup, smoothScroll };
+export default { renderMarkup, createLightBox, smoothScroll };
