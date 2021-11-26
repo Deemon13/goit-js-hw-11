@@ -33,6 +33,8 @@ function onSubmit(e) {
 
     Notify.success(`Hooray! We found ${images.totalHits} images.`);
 
+    Utils.createLightBox();
+
     if (apiGetImages.page > Math.ceil(images.totalHits / apiGetImages.perPage)) {
       refs.loadMoreButRef.setAttribute('hidden', 'true');
       Notify.info(`We're sorry, but you've reached the end of search results.`);
@@ -49,6 +51,7 @@ function onSubmit(e) {
 function onLoadMoreClick() {
   apiGetImages.getImages().then(images => {
     Utils.renderMarkup(images);
+    Utils.createLightBox();
     apiGetImages.incrementPage();
 
     if (apiGetImages.page > Math.ceil(images.totalHits / apiGetImages.perPage)) {
